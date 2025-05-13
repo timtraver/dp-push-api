@@ -1,0 +1,10 @@
+{
+    "apiFQDN": "localhost",
+    "apiIpAddress": "127.0.0.1",
+    "apiPort": "4001",
+    "httpsKeyPath": "../domain.com/private.key",
+    "httpsCertPath": "../domain.com/certificate.crt",
+    "pgCertPath": "ca-certificate.crt",
+    "pgConnectionString": "postgresql",
+    "sharedHash": "c94fefcca99f879bd2e1e430d13db3169957b4d0f40e0b19c988071948fff5c0"
+}

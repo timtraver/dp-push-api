@@ -1,0 +1,23 @@
+{
+  "name": "dp-push-api",
+  "version": "1.0.0",
+  "author": "Tim Traver",
+  "description": "API server for expo push notifications",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "expo-server-sdk": "^3.15.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "fs": "^0.0.1-security",
+    "pg": "^8.16.0"
+  },
+  "private": true
+}
