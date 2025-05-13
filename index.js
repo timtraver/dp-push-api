@@ -18,6 +18,7 @@ const apiPort = config.apiPort;
 const httpsKeyPath = config.httpsKeyPath;
 const httpsCertPath = config.httpsCertPath;
 const sharedHash = config.sharedHash;
+const pgCertPath = config.pgCertPath;
 const pgConnectionString = config.pgConnectionString;
 
 const privateKey = fs.readFileSync(httpsKeyPath, 'utf8');
@@ -35,7 +36,7 @@ const pool = new Pool({
   ssl: {
     require: true,
     rejectUnauthorized: false,
-    ca: fs.readFileSync('./ca-certificate.crt').toString(),
+    ca: fs.readFileSync(pgCertPath).toString(),
   },
 });
 
