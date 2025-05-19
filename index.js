@@ -66,7 +66,7 @@ app.post('/send-push', async (req, res) => {
         return res.status(403).json({ error: 'Forbidden2' });
     }
     // Check request body
-    const { user_ids, sender_user_id, title, body, data = {} } = req.body;
+    const { user_ids, sender_user_id, title, body, data = {}, tournament_id = null } = req.body;
 
     if (!Array.isArray(user_ids) || !sender_user_id || !title || !body) {
         return res.status(400).json({ error: 'Missing required fields' });
@@ -77,6 +77,7 @@ app.post('/send-push', async (req, res) => {
         title,
         body,
         data,
+        tournament_id
     });
 
     try {
@@ -107,8 +108,8 @@ app.post('/send-push', async (req, res) => {
             }
 
             const response = await pool.query(
-                'INSERT INTO push_notifications (user_id, sender_user_id, token, title, body, data, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id',
-                [user.id, sender_user_id, token, title, body, JSON.stringify(data), 0]
+                'INSERT INTO push_notifications (user_id, sender_user_id, token, title, body, data, status, tournament_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+                [user.id, sender_user_id, token, title, body, JSON.stringify(data), 0, tournament_id]
             );
             const message_id = response.rows[0].id;
 
