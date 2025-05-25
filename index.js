@@ -196,6 +196,8 @@ async function checkReceipts(ticketIds, pendingTickets) {
             const receipts = await expo.getPushNotificationReceiptsAsync(chunk);
             for (const [ticketId, receipt] of Object.entries(receipts)) {
                 const messageId = pendingTickets.get(ticketId);
+                console.log(`Processing receipt for ticket ${ticketId}, message ID: ${messageId}`);
+                console.log(`Receipt details:`, receipt);
                 if (!messageId) continue;
                 if (receipt.status === 'ok') {
                     await pool.query(
