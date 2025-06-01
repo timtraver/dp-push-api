@@ -102,10 +102,6 @@ app.post('/send-push', async (req, res) => {
         for (const user of rows) {
             const token = user.push_token;
             const unreadCount = parseInt(user?.unread_count) + 1 || 1;
-            if (!Expo.isExpoPushToken(token)) {
-                console.warn(`Invalid token for user ${user.id}: ${token}`);
-                continue;
-            }
 
             try {
                 const response = await pool.query(
@@ -118,6 +114,11 @@ app.post('/send-push', async (req, res) => {
                 console.error('Error inserting push notification:', error);
                 // optionally rethrow or handle gracefully
                 // throw error;
+            }
+            
+            if (!Expo.isExpoPushToken(token)) {
+                console.warn(`Invalid token for user ${user.id}: ${token}`);
+                continue;
             }
 
             messages.push({
