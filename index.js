@@ -93,9 +93,9 @@ app.post('/send-push', async (req, res) => {
                     AND (pn.seen_at IS NULL OR pn.seen_at < pn.created_at)
                 ) AS unread_count
             FROM users u
-            WHERE u.id = ANY($1) AND push_token IS NOT NULL
+            WHERE u.id = ANY($1::int[]) AND (push_token IS NOT NULL OR has_push_token = true)
         `;
-        const { rows } = await pool.query(query, [user_ids]);
+        const { rows } = await pool.query(query,[user_ids]);
 
         const messages = [];
 
