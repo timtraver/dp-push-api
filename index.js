@@ -46,7 +46,7 @@ const expo = new Expo();
 // ✅ Add rate limiter middleware
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 30, // max requests per IP
+  max: 300, // max requests per IP
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: 'Too many requests, please try again later.' },
@@ -107,11 +107,18 @@ app.post('/send-push', async (req, res) => {
                 continue;
             }
 
-            const response = await pool.query(
-                'INSERT INTO push_notifications (user_id, sender_user_id, token, title, body, data, status, tournament_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
-                [user.id, sender_user_id, token, title, body, JSON.stringify(data), 0, tournament_id]
-            );
-            const message_id = response.rows[0].id;
+            try {
+                const response = await pool.query(
+                    'INSERT INTO push_notifications (user_id, sender_user_id, token, title, body, data, status, tournament_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+                    [user.id, sender_user_id, token, title, body, JSON.stringify(data), 0, tournament_id]
+                );
+                const message_id = response.rows[0].id;
+                console.log('Notification inserted with ID:', message_id);
+            } catch (error) {
+                console.error('Error inserting push notification:', error);
+                // optionally rethrow or handle gracefully
+                // throw error;
+            }
 
             messages.push({
                 to: token,
@@ -125,6 +132,8 @@ app.post('/send-push', async (req, res) => {
                 _displayInForeground: true,
             });
         }
+        console.log(`Prepared ${messages.length} messages for sending.`);
+        console.log('Messages:', messages);
 
         // Send all of the messages
         const chunks = expo.chunkPushNotifications(messages);
