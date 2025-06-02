@@ -127,7 +127,7 @@ app.post('/send-push', async (req, res) => {
                 sound: 'default',
                 title,
                 body,
-                data: { ...data, m: message_id },
+                data: { ...data, ...(message_id ? { m: message_id } : {}) },
                 badge: unreadCount,
                 priority: 'high',
                 interruptionLevel: 'time-sensitive',
