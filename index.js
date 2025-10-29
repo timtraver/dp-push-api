@@ -132,7 +132,7 @@ app.post('/send-push', async (req, res) => {
                 priority: 'high',
                 interruptionLevel: 'time-sensitive',
                 _displayInForeground: true,
-                contentAvailable: true
+                _contentAvailable: true
             });
         }
         console.log(`Prepared ${messages.length} messages for sending.`);
