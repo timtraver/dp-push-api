@@ -139,15 +139,14 @@ app.post('/send-push', async (req, res) => {
                 messages.push({
                     to: token,
                     sound: null,
-                    title: ' ',
-                    body: ' ',
                     data: {
                         mid: data.mid,
                         type: 'live_activity_update',  // Different type for Live Activity
                         sentAt: new Date().toISOString()
                     },
                     priority: 'high',
-                    _contentAvailable: true
+                    _contentAvailable: true,
+                    mutableContent: true
                 });
             }
         }
