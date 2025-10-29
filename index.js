@@ -134,21 +134,21 @@ app.post('/send-push', async (req, res) => {
                 _displayInForeground: true,
                 _contentAvailable: true
             });
-            // Send a second message that is strictly to wake up the LiveActivity on iOS phones if the data has mid
-            if (data?.mid) {
-                messages.push({
-                    to: token,
-                    sound: null,
-                    data: {
-                        mid: data.mid,
-                        type: 'live_activity_update',  // Different type for Live Activity
-                        sentAt: new Date().toISOString()
-                    },
-                    priority: 'high',
-                    _contentAvailable: true,
-                    mutableContent: true
-                });
-            }
+            // // Send a second message that is strictly to wake up the LiveActivity on iOS phones if the data has mid
+            // if (data?.mid) {
+            //     messages.push({
+            //         to: token,
+            //         sound: null,
+            //         data: {
+            //             mid: data.mid,
+            //             type: 'live_activity_update',  // Different type for Live Activity
+            //             sentAt: new Date().toISOString()
+            //         },
+            //         priority: 'high',
+            //         _contentAvailable: true,
+            //         mutableContent: true
+            //     });
+            // }
         }
         console.log(`Prepared ${messages.length} messages for sending.`);
         console.log('Messages:', messages);
